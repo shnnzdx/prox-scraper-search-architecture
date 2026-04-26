@@ -21,6 +21,11 @@ from prototype.worker import (
 
 app = FastAPI(title="Track A Prototype API", version="0.1.0")
 
+<<<<<<< HEAD
+=======
+STORE_PREFIX = {"walmart": "wm", "target": "tg", "kroger": "kg"}
+
+>>>>>>> 475eb6b (Initial Track A prototype submission)
 queue = JobQueue()
 cache = TTLCache(default_ttl_seconds=45)
 dedupe = DedupeRegistry(lock_ttl_seconds=120)
@@ -84,7 +89,11 @@ def enqueue_refresh_jobs(query: str, zip_code: str, retailers: list[str]) -> tup
     normalized_query = normalize_query(query)
     bucket = freshness_bucket()
     for retailer_id in retailers:
+<<<<<<< HEAD
         store_id = f"{retailer_id[:2]}-{zip_code}"
+=======
+        store_id = f"{STORE_PREFIX.get(retailer_id, retailer_id[:2])}-{zip_code}"
+>>>>>>> 475eb6b (Initial Track A prototype submission)
         job_key = make_job_key(
             retailer_id=retailer_id,
             store_id=store_id,

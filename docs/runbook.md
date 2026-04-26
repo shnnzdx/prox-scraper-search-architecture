@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Runbook: Scraper & Search Infrastructure Operations
+=======
+# Runbook
+>>>>>>> 475eb6b (Initial Track A prototype submission)
 
 ## Purpose
 
@@ -123,7 +127,11 @@ If a schema migration causes issues:
 
 ## Monitoring Dashboards
 
+<<<<<<< HEAD
 In a production version, the team should maintain dashboards for the following areas.
+=======
+Operators should maintain dashboards for the following areas.
+>>>>>>> 475eb6b (Initial Track A prototype submission)
 
 ### Search API
 
@@ -588,4 +596,7 @@ After stabilization, capture:
 - and owner for each action item.
 
 Each incident should end with one concrete prevention change, not just a summary.
+<<<<<<< HEAD
 
+=======
+>>>>>>> 475eb6b (Initial Track A prototype submission)

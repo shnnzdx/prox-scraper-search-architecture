@@ -31,7 +31,10 @@ The architecture should:
 
 ## 3. Non-Goals
 
+<<<<<<< HEAD
 ```md
+=======
+>>>>>>> 475eb6b (Initial Track A prototype submission)
 Scraping should only be used when legally and operationally appropriate, and the system should prefer approved data access paths whenever possible.
 
 ## 3.1 Key Tradeoffs
@@ -129,13 +132,18 @@ block the user until scraping finishes
 
 This keeps search latency low and makes retailer failures less visible to users.
 
+<<<<<<< HEAD
 ```md
+=======
+
+>>>>>>> 475eb6b (Initial Track A prototype submission)
 ### API Response Behavior
 
 The Search API should return a response that includes both results and freshness metadata.
 
 Example response fields:
 
+<<<<<<< HEAD
 ```text
 query
 zip_code
@@ -145,6 +153,15 @@ last_updated_at
 refresh_enqueued: true | false
 missing_retailers
 ```
+=======
+- `query`
+- `zip_code`
+- `results`
+- `freshness_status: fresh | stale | partial | unavailable`
+- `last_updated_at`
+- `refresh_enqueued: true | false`
+- `missing_retailers`
+>>>>>>> 475eb6b (Initial Track A prototype submission)
 
 ## 6. Preloaded vs On-Demand Data
 

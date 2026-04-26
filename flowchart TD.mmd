@@ -1,0 +1,46 @@
+flowchart TD
+    U[User] --> API[Search API]
+
+    API --> CACHE{Redis cache hit?}
+    CACHE -- fresh hit --> RESP[Return results]
+    CACHE -- miss or stale --> OS[OpenSearch product index]
+
+    OS --> FRESH{Indexed data fresh enough?}
+    FRESH -- yes --> RESP
+    FRESH -- stale or missing --> SWR[Return best available result<br/>and enqueue async refresh]
+
+    SWR --> DEDUPE[Job dedupe layer<br/>Redis or DynamoDB lock]
+    DEDUPE --> ROUTER[Job router]
+
+    ROUTER --> QW[SQS queue: Walmart]
+    ROUTER --> QT[SQS queue: Target]
+    ROUTER --> QK[SQS queue: Kroger]
+    ROUTER --> QN[SQS queue: Other retailers]
+
+    QW --> WW[Walmart worker pool]
+    QT --> WT[Target worker pool]
+    QK --> WK[Kroger worker pool]
+    QN --> WN[Generic retailer worker pools]
+
+    WW --> RAW[S3 raw scrape output]
+    WT --> RAW
+    WK --> RAW
+    WN --> RAW
+
+    RAW --> PIPE[Normalize + validate pipeline]
+    PIPE --> PG[(Postgres normalized product DB)]
+    PIPE --> JOBS[(Job metadata table)]
+    PIPE --> IDXUPD[Index updater]
+    IDXUPD --> OS
+
+    API --> OBS[Logs, metrics, alerts]
+    WW --> OBS
+    WT --> OBS
+    WK --> OBS
+    WN --> OBS
+    PIPE --> OBS
+
+    WW --> DLQ[Dead-letter queue]
+    WT --> DLQ
+    WK --> DLQ
+    WN --> DLQ

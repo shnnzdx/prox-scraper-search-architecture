@@ -4,7 +4,11 @@
 
 This document explains how the scraper and search infrastructure scales to the initial Prox assessment assumptions: about **5,000 active users**, **3 searches per user per day**, **6 retailers today**, and **10+ retailers planned**. At this scale, the main risk is not raw API throughput. The main risk is letting user searches create too many duplicate, expensive, and fragile retailer refresh jobs.
 
+<<<<<<< HEAD
 The strategy is to keep user-facing search fast and cheap, while treating scraping as an asynchronous, deduplicated, rate-limited, and failure-isolated refresh workflow.
+=======
+The strategy is to keep **search fast and cheap**, while making **scraping asynchronous, deduplicated, rate-limited, and failure-isolated**.
+>>>>>>> 475eb6b (Initial Track A prototype submission)
 
 ---
 
@@ -19,10 +23,17 @@ Preload data that is reusable across many users and has predictable value:
   - price snapshots for high-demand products,
   - store availability for common products.
 
+<<<<<<< HEAD
 - **Daily or weekly**
   - store metadata,
   - retailer location metadata,
   - stable product metadata,
+=======
+- **Weekly or less frequently**
+  - stable product metadata,
+  - store metadata,
+  - retailer location metadata,
+>>>>>>> 475eb6b (Initial Track A prototype submission)
   - brand/category mappings,
   - parser test fixtures from known retailer pages.
 
@@ -190,4 +201,7 @@ The best cost optimization is not choosing the cheapest compute instance. It is 
 The system should optimize for **fast search, controlled freshness, isolated failures, and predictable cost**.
 
 The strongest design choice is to treat scraping as an expensive background refresh mechanism, not as the default search path. By combining scheduled preload, TTL caching, deterministic deduplication, retailer-specific queues, retry limits, and circuit breakers, the platform can support the initial 5,000-user load and scale to more users and retailers without letting cost or failure rates grow uncontrollably.
+<<<<<<< HEAD
 
+=======
+>>>>>>> 475eb6b (Initial Track A prototype submission)
