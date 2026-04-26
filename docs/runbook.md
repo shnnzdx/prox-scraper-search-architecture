@@ -1,4 +1,4 @@
-# Runbook
+# Runbook: Scraper & Search Infrastructure Operations
 
 ## Purpose
 
@@ -123,7 +123,7 @@ If a schema migration causes issues:
 
 ## Monitoring Dashboards
 
-Operators should maintain dashboards for the following areas.
+In a production version, the team should maintain dashboards for the following areas.
 
 ### Search API
 
