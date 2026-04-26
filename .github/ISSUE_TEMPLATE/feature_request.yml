@@ -1,0 +1,46 @@
+name: Feature Request
+description: Propose a scoped improvement aligned with Track A goals
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What limitation are you trying to solve?
+      placeholder: Current behavior is...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Change
+      description: Keep it scoped and practical
+      placeholder: I propose...
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Expected Impact
+      description: Latency, freshness, reliability, cost, or maintainability
+      placeholder: This improves...
+
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of Scope
+      description: What this request explicitly does not include
+      placeholder: This does not include...
+
+  - type: checkboxes
+    id: alignment
+    attributes:
+      label: Track A Alignment
+      options:
+        - label: Keeps search path latency-focused
+        - label: Keeps refresh path async and cost-aware
+        - label: Avoids unnecessary architecture redesign

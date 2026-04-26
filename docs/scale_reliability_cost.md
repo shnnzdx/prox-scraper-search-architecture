@@ -2,70 +2,60 @@
 
 ## Purpose
 
-This document explains how the scraper and search infrastructure scales to the initial Prox assessment assumptions: about **5,000 active users**, **3 searches per user per day**, **6 retailers today**, and **10+ retailers planned**. At this scale, the main risk is not raw API throughput. The main risk is letting user searches create too many duplicate, expensive, and fragile retailer refresh jobs.
+This document explains how the scraper and search infrastructure scales to the Track A assumptions: about **5,000 active users**, **3 searches per user per day**, **6 retailers today**, and **10+ retailers planned**.
 
-<<<<<<< HEAD
+At this stage, the main risk is not raw API throughput. The main risk is allowing user searches to generate too much duplicate, expensive, and fragile refresh work.
+
 The strategy is to keep user-facing search fast and cheap, while treating scraping as an asynchronous, deduplicated, rate-limited, and failure-isolated refresh workflow.
-=======
-The strategy is to keep **search fast and cheap**, while making **scraping asynchronous, deduplicated, rate-limited, and failure-isolated**.
->>>>>>> 475eb6b (Initial Track A prototype submission)
 
 ---
 
 ## 1. What should be preloaded nightly or weekly?
 
-Preload data that is reusable across many users and has predictable value:
+Preload data that is reusable across many users and has predictable value.
 
-- **Nightly**
-  - top searched products by ZIP/store cluster,
+- Nightly:
+  - top searched products by ZIP or store cluster,
   - popular grocery categories such as milk, eggs, bread, fruit, meat, and snacks,
   - retailer weekly deals and promotions,
   - price snapshots for high-demand products,
   - store availability for common products.
-
-<<<<<<< HEAD
-- **Daily or weekly**
+- Daily or weekly:
   - store metadata,
   - retailer location metadata,
   - stable product metadata,
-=======
-- **Weekly or less frequently**
-  - stable product metadata,
-  - store metadata,
-  - retailer location metadata,
->>>>>>> 475eb6b (Initial Track A prototype submission)
   - brand/category mappings,
   - parser test fixtures from known retailer pages.
 
-This keeps the search index warm before users search. It also reduces on-demand scraping during peak traffic.
+This keeps the index warm before users search and reduces on-demand scraping during peak traffic.
 
 ---
 
 ## 2. What should be triggered on demand?
 
-On-demand refresh should be used only when the value justifies the cost:
+On-demand refresh should run only when the value justifies the cost:
 
-- a query is long-tail or missing from the index,
-- a ZIP/store combination has not been seen before,
+- query is long-tail or missing from the index,
+- ZIP or store combination is new,
 - price or promotion data is stale,
-- one retailer has missing results while others have fresh results,
-- or a user search indicates repeated demand for a product not covered by preload.
+- one retailer is missing while others have fresh results,
+- repeated demand appears for a product not covered by preload.
 
-The API should not wait for this refresh to finish. It should return cached, indexed, partial, or stale-labeled results immediately, then update data asynchronously.
+The API should not wait for this refresh to finish. It should return cached, indexed, partial, or stale-labeled results quickly, then update asynchronously.
 
 ---
 
 ## 3. How do we prevent duplicate execution?
 
-Many users may search for the same item in the same ZIP code within the same freshness window. The system prevents duplicate work with a deterministic job key:
+Many users can search the same item in the same ZIP code within the same freshness window. Prevent duplicate work with a deterministic job key:
 
 ```text
 sha256(retailer_id + store_id + zip_code + normalized_query + job_type + freshness_bucket)
 ```
 
-Before enqueueing a scrape job, the API or scheduler checks Redis/DynamoDB for an active pending-job lock. If the lock already exists, the system does not enqueue another job. Users share the same pending refresh and receive the best currently available result.
+Before enqueueing a refresh job, check Redis or DynamoDB for an active pending-job lock. If the lock exists, do not enqueue another job. Users share the same pending refresh.
 
-Queue-level deduplication can help, but it is not enough by itself because business freshness windows are usually longer than queue deduplication windows. Workers must still be idempotent so duplicate messages do not create duplicate writes.
+Queue-level dedupe helps, but is not enough by itself because business freshness windows are usually longer than queue dedupe windows. Workers must remain idempotent.
 
 ---
 
@@ -94,83 +84,81 @@ S3:
 Suggested TTL policy:
 
 ```text
-Search response cache: 15–60 minutes
-Price and promotion fields: 6–12 hours
+Search response cache: 15-60 minutes
+Price and promotion fields: 6-12 hours
 Base catalog snapshots: 24 hours
 Store metadata: 24 hours or longer
 Stable product metadata: 7 days
-Negative cache after retailer failure: 10–15 minutes
+Negative cache after retailer failure: 10-15 minutes
 ```
 
-The system should use **stale-while-revalidate**: return the best available result quickly, label stale data when needed, and refresh in the background.
+Use stale-while-revalidate: return the best available result fast, label stale data when needed, and refresh in the background.
 
 ---
 
 ## 5. How do we keep search latency low?
 
-The user-facing request path should avoid expensive work:
+Keep the request path lightweight:
 
 ```text
 User request
-→ normalize query and location
-→ check Redis
-→ query OpenSearch
-→ fetch product details if needed
-→ return result
-→ enqueue async refresh only if stale or missing
+-> normalize query and location
+-> check Redis
+-> query OpenSearch
+-> fetch product details if needed
+-> return result
+-> enqueue async refresh only if stale or missing
 ```
 
-The API should never perform retailer scraping inline. This keeps p95 latency stable even when retailers are slow, blocked, or partially unavailable.
+The API should not scrape retailers inline. This keeps p95 latency stable even when retailers are slow or partially failing.
 
-If data is stale, the system should prefer:
+If data is stale, prefer:
 
-- returning stale-but-labeled results,
-- returning partial results from healthy retailers,
-- showing freshness timestamps,
-- and refreshing asynchronously.
-
-This is better than making the user wait for live scraping.
+- stale-but-labeled results,
+- partial results from healthy retailers,
+- visible freshness timestamps,
+- and background refresh.
 
 ---
 
 ## 6. How does this scale to 5,000 users and beyond?
 
-The initial load is about:
+Initial load:
 
 ```text
-5,000 users × 3 searches/day = 15,000 searches/day
+5,000 users x 3 searches/day = 15,000 searches/day
 ```
 
-That volume is manageable for an API and search index. The harder scaling problem is controlling refresh work as retailer count and ZIP coverage grow.
+That API volume is manageable. The harder scaling problem is refresh volume as retailer count and ZIP coverage grow.
 
-Scaling levers:
+Scale levers:
 
-- scale API servers separately from workers,
-- scale OpenSearch independently from the scrape system,
-- add queues per retailer or retailer family,
-- apply per-retailer concurrency limits,
+- scale API servers independently from workers,
+- scale OpenSearch independently from scrape execution,
+- queue per retailer or retailer family,
+- enforce per-retailer concurrency limits,
 - increase preload coverage for high-demand products,
-- tune TTLs based on freshness complaints and cache hit rate,
-- use circuit breakers when retailer failure rates spike,
-- and replay failed jobs from DLQ only after the root cause is fixed.
+- tune TTLs based on freshness complaints and hit rate,
+- open circuit breakers when retailer failures spike,
+- replay DLQ only after root cause is fixed.
 
-As the platform grows from 6 retailers to 10+ retailers, each new retailer should be added through the same adapter pattern: rate limit, timeout, parser, retry policy, circuit breaker, and observability labels.
+As the platform grows from 6 to 10+ retailers, each new retailer should follow the same adapter contract: rate limit, timeout, parser, retry policy, circuit breaker, and observability labels.
 
 ---
 
 ## 7. Where should we minimize cloud spend?
 
-The highest-cost areas are likely:
+Highest-cost areas are typically:
 
 - browser-based scraping,
 - proxy usage,
 - repeated duplicate fetches,
 - retries during retailer instability,
-- and over-preloading low-value data.
+- preloading low-value data.
 
 Cost controls should exist at two levels.
 
-### Application-level guardrails
+Application-level guardrails:
 
 - cache-first search behavior,
 - deterministic dedupe locks,
@@ -179,29 +167,23 @@ Cost controls should exist at two levels.
 - retry caps,
 - proxy spend caps,
 - browser-job approval thresholds,
-- and circuit breakers during failure spikes.
+- circuit breakers during failure spikes.
 
-These controls prevent runaway spend before the cloud bill grows.
-
-### Cloud-level guardrails
+Cloud-level guardrails:
 
 - AWS Budgets alerts,
 - CloudWatch alarms,
-- queue-depth alarms,
+- queue depth alarms,
 - concurrency limits,
 - S3 lifecycle rules for raw payload retention,
-- and autoscaling policies based on queue depth and worker success rate.
+- autoscaling tied to queue depth and worker success rate.
 
-The best cost optimization is not choosing the cheapest compute instance. It is avoiding unnecessary scraping entirely.
+The strongest cost optimization is avoiding unnecessary scraping entirely.
 
 ---
 
 ## Final Strategy
 
-The system should optimize for **fast search, controlled freshness, isolated failures, and predictable cost**.
+Optimize for **fast search, controlled freshness, isolated failures, and predictable cost**.
 
-The strongest design choice is to treat scraping as an expensive background refresh mechanism, not as the default search path. By combining scheduled preload, TTL caching, deterministic deduplication, retailer-specific queues, retry limits, and circuit breakers, the platform can support the initial 5,000-user load and scale to more users and retailers without letting cost or failure rates grow uncontrollably.
-<<<<<<< HEAD
-
-=======
->>>>>>> 475eb6b (Initial Track A prototype submission)
+The core design choice is to treat scraping as an expensive background refresh mechanism, not as the default search path. By combining preload, TTL caching, deterministic deduplication, retailer-isolated queues, retry limits, and circuit breakers, the platform can scale without letting cost or failure rates grow uncontrollably.

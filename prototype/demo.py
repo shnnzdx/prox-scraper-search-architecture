@@ -28,12 +28,6 @@ def main() -> None:
         print("\n3) Run worker once")
         print(json.dumps(call("POST", "/worker/run-once"), indent=2))
 
-<<<<<<< HEAD
-        print("\n4) List jobs")
-        print(json.dumps(call("GET", "/jobs"), indent=2))
-
-        print("\n5) Show failed jobs")
-=======
         print("\n4) Search milk/90210 again after worker refresh")
         print(json.dumps(call("POST", "/search", {"query": "milk", "zip_code": "90210"}), indent=2))
 
@@ -41,7 +35,6 @@ def main() -> None:
         print(json.dumps(call("GET", "/jobs"), indent=2))
 
         print("\n6) Show failed jobs")
->>>>>>> 475eb6b (Initial Track A prototype submission)
         print(json.dumps(call("GET", "/failed-jobs"), indent=2))
     except URLError:
         print("API is not reachable. Start server first:")
@@ -50,7 +43,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-<<<<<<< HEAD
-
-=======
->>>>>>> 475eb6b (Initial Track A prototype submission)
