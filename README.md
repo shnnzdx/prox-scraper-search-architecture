@@ -38,7 +38,7 @@ Production equivalents are documented as AWS-native services, while prototype co
 - [docs/runbook.md](docs/runbook.md)
 - [docs/scale_reliability_cost.md](docs/scale_reliability_cost.md)
 - [docs/release_notes_v0.1.0.md](docs/release_notes_v0.1.0.md)
-- `prototype/README.md`
+- [prototype/README.md](prototype/README.md)
 - [CHANGELOG.md](CHANGELOG.md)
 
 ## Local Setup
