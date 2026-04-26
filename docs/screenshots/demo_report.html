@@ -1,0 +1,374 @@
+        <!doctype html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <title>Prox Track A Demo Report</title>
+          <style>
+            :root {
+              --bg: #f5f1e8;
+              --paper: #fffdf8;
+              --ink: #18202a;
+              --muted: #5f6b76;
+              --line: #d7cdbd;
+              --accent: #0f766e;
+              --accent-soft: #d9f0ec;
+              --shadow: 0 18px 40px rgba(24, 32, 42, 0.08);
+            }
+            * { box-sizing: border-box; }
+            body {
+              margin: 0;
+              font-family: Georgia, "Times New Roman", serif;
+              color: var(--ink);
+              background:
+                radial-gradient(circle at top left, #f8e7d5 0, transparent 35%),
+                linear-gradient(180deg, #f7f4ee 0%, var(--bg) 100%);
+            }
+            .page {
+              max-width: 1100px;
+              margin: 0 auto;
+              padding: 48px 28px 72px;
+            }
+            .hero {
+              background: linear-gradient(135deg, rgba(15,118,110,0.95), rgba(21,94,117,0.92));
+              color: #f7fbfb;
+              border-radius: 28px;
+              padding: 40px 42px;
+              box-shadow: var(--shadow);
+              position: relative;
+              overflow: hidden;
+            }
+            .hero::after {
+              content: "";
+              position: absolute;
+              inset: auto -120px -120px auto;
+              width: 320px;
+              height: 320px;
+              border-radius: 50%;
+              background: rgba(255,255,255,0.08);
+            }
+            .hero h1 {
+              margin: 0 0 12px;
+              font-size: 40px;
+              line-height: 1.05;
+            }
+            .hero p {
+              margin: 0;
+              max-width: 760px;
+              font-size: 18px;
+              line-height: 1.55;
+            }
+            .meta {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 12px;
+              margin-top: 22px;
+            }
+            .pill {
+              border: 1px solid rgba(255,255,255,0.25);
+              border-radius: 999px;
+              padding: 9px 14px;
+              font-size: 13px;
+              letter-spacing: 0.04em;
+              text-transform: uppercase;
+              background: rgba(255,255,255,0.08);
+            }
+            .grid {
+              display: grid;
+              grid-template-columns: 1fr;
+              gap: 22px;
+              margin-top: 26px;
+            }
+            .card {
+              background: var(--paper);
+              border: 1px solid var(--line);
+              border-radius: 24px;
+              padding: 26px 28px 28px;
+              box-shadow: var(--shadow);
+            }
+            .eyebrow {
+              color: var(--accent);
+              font-size: 13px;
+              text-transform: uppercase;
+              letter-spacing: 0.12em;
+              font-weight: 700;
+              margin-bottom: 10px;
+            }
+            h2 {
+              margin: 0 0 10px;
+              font-size: 30px;
+              line-height: 1.12;
+            }
+            .caption {
+              margin: 0 0 18px;
+              color: var(--muted);
+              font-size: 16px;
+              line-height: 1.55;
+            }
+            pre {
+              margin: 0;
+              padding: 18px 20px;
+              border-radius: 18px;
+              background: #161c24;
+              color: #edf2f7;
+              overflow: auto;
+              font: 14px/1.55 Consolas, "Courier New", monospace;
+              border: 1px solid #28303a;
+            }
+            .footer {
+              margin-top: 28px;
+              color: var(--muted);
+              font-size: 14px;
+              line-height: 1.5;
+              text-align: center;
+            }
+          </style>
+        </head>
+        <body>
+          <main class="page">
+            <section class="hero">
+              <h1>Prox Track A Demo Evidence</h1>
+              <p>
+                Deterministic local prototype run using mock retailer adapters only.
+                No live scraping, no cloud runtime services, and no business-logic redesign.
+              </p>
+              <div class="meta">
+                <div class="pill">Mock Retailer Adapters</div>
+                <div class="pill">Cache-First Search</div>
+                <div class="pill">Queued Refresh Jobs</div>
+                <div class="pill">Freshness After Worker Run</div>
+              </div>
+            </section>
+            <div class="grid">
+
+            <section class="card" id="repo-overview">
+              <div class="eyebrow">Repository Overview</div>
+              <h2>README / repo overview</h2>
+              <p class="caption">Architecture-first Track A submission with a local runnable prototype using mock retailer adapters.</p>
+              <pre><code>{
+  &quot;project&quot;: &quot;Prox Track A Prototype&quot;,
+  &quot;track&quot;: &quot;Scraper &amp; Search Infrastructure Architecture&quot;,
+  &quot;prototype_mode&quot;: &quot;Local mock adapters only&quot;,
+  &quot;non_goals&quot;: [
+    &quot;No live retailer scraping&quot;,
+    &quot;No cloud runtime dependencies in the prototype&quot;,
+    &quot;No browser automation in the business logic&quot;
+  ],
+  &quot;linked_docs&quot;: [
+    &quot;docs/architecture.md&quot;,
+    &quot;docs/runbook.md&quot;,
+    &quot;docs/scale_reliability_cost.md&quot;,
+    &quot;docs/demo_screenshots.md&quot;
+  ]
+}</code></pre>
+            </section>
+
+            <section class="card" id="api-endpoints">
+              <div class="eyebrow">Local API Surface</div>
+              <h2>API endpoints available</h2>
+              <p class="caption">Endpoints exposed by the FastAPI prototype for the deterministic local demo flow.</p>
+              <pre><code>{
+  &quot;base_url&quot;: &quot;http://127.0.0.1:8000&quot;,
+  &quot;endpoints&quot;: [
+    {
+      &quot;method&quot;: &quot;POST&quot;,
+      &quot;path&quot;: &quot;/search&quot;,
+      &quot;purpose&quot;: &quot;Search request with cache-first behavior&quot;
+    },
+    {
+      &quot;method&quot;: &quot;GET&quot;,
+      &quot;path&quot;: &quot;/jobs&quot;,
+      &quot;purpose&quot;: &quot;Inspect queued and processed refresh jobs&quot;
+    },
+    {
+      &quot;method&quot;: &quot;POST&quot;,
+      &quot;path&quot;: &quot;/worker/run-once&quot;,
+      &quot;purpose&quot;: &quot;Process queued mock retailer jobs&quot;
+    },
+    {
+      &quot;method&quot;: &quot;GET&quot;,
+      &quot;path&quot;: &quot;/failed-jobs&quot;,
+      &quot;purpose&quot;: &quot;Mock dead-letter queue inspection&quot;
+    },
+    {
+      &quot;method&quot;: &quot;GET&quot;,
+      &quot;path&quot;: &quot;/health&quot;,
+      &quot;purpose&quot;: &quot;Basic service health and queue/cache counters&quot;
+    }
+  ]
+}</code></pre>
+            </section>
+
+            <section class="card" id="first-search">
+              <div class="eyebrow">Step 1</div>
+              <h2>First search: cache miss + refresh enqueued</h2>
+              <p class="caption">Initial request starts from an empty index and enqueues background refresh jobs.</p>
+              <pre><code>{
+  &quot;query&quot;: &quot;milk&quot;,
+  &quot;zip_code&quot;: &quot;90210&quot;,
+  &quot;freshness_status&quot;: &quot;unavailable&quot;,
+  &quot;cache_hit&quot;: false,
+  &quot;refresh_enqueued&quot;: true,
+  &quot;dedupe_suppressed_jobs&quot;: 0,
+  &quot;results&quot;: [],
+  &quot;missing_retailers&quot;: [
+    &quot;walmart&quot;,
+    &quot;target&quot;,
+    &quot;kroger&quot;
+  ],
+  &quot;message&quot;: &quot;Returned best available data; refresh enqueued.&quot;
+}</code></pre>
+            </section>
+
+            <section class="card" id="repeat-search">
+              <div class="eyebrow">Step 2</div>
+              <h2>Repeated search: cache hit / dedupe behavior</h2>
+              <p class="caption">The second request reuses the cached stale response and avoids claiming a new enqueue.</p>
+              <pre><code>{
+  &quot;query&quot;: &quot;milk&quot;,
+  &quot;zip_code&quot;: &quot;90210&quot;,
+  &quot;freshness_status&quot;: &quot;unavailable&quot;,
+  &quot;cache_hit&quot;: true,
+  &quot;refresh_enqueued&quot;: false,
+  &quot;dedupe_suppressed_jobs&quot;: 0,
+  &quot;results&quot;: [],
+  &quot;missing_retailers&quot;: [
+    &quot;walmart&quot;,
+    &quot;target&quot;,
+    &quot;kroger&quot;
+  ],
+  &quot;message&quot;: &quot;Served from cache; no new refresh job enqueued.&quot;
+}</code></pre>
+            </section>
+
+            <section class="card" id="jobs-enqueued">
+              <div class="eyebrow">Step 3</div>
+              <h2>Queued jobs</h2>
+              <p class="caption">Queued mock refresh jobs before the worker runs.</p>
+              <pre><code>{
+  &quot;count&quot;: 3,
+  &quot;jobs&quot;: [
+    {
+      &quot;job_id&quot;: &quot;a72aecae-6cf6-436e-9d2b-7d70706cf09e&quot;,
+      &quot;job_key&quot;: &quot;3b0e79934242dfcf69826823b855d878e86832b089ecb454a8669eae1cb0f92a&quot;,
+      &quot;retailer_id&quot;: &quot;walmart&quot;,
+      &quot;query&quot;: &quot;milk&quot;,
+      &quot;zip_code&quot;: &quot;90210&quot;,
+      &quot;store_id&quot;: &quot;wm-90210&quot;,
+      &quot;job_type&quot;: &quot;refresh&quot;,
+      &quot;status&quot;: &quot;queued&quot;,
+      &quot;retry_count&quot;: 0,
+      &quot;created_at&quot;: &quot;2026-04-26T18:41:05.043275Z&quot;,
+      &quot;updated_at&quot;: &quot;2026-04-26T18:41:05.043275Z&quot;
+    },
+    {
+      &quot;job_id&quot;: &quot;cd1380c9-e0a4-4f97-a7b4-b4a2e2292cfd&quot;,
+      &quot;job_key&quot;: &quot;d52b22dc89362b96a7ac58fe40e946adb085a1290beb8077f637ecbdc80114d7&quot;,
+      &quot;retailer_id&quot;: &quot;target&quot;,
+      &quot;query&quot;: &quot;milk&quot;,
+      &quot;zip_code&quot;: &quot;90210&quot;,
+      &quot;store_id&quot;: &quot;tg-90210&quot;,
+      &quot;job_type&quot;: &quot;refresh&quot;,
+      &quot;status&quot;: &quot;queued&quot;,
+      &quot;retry_count&quot;: 0,
+      &quot;created_at&quot;: &quot;2026-04-26T18:41:05.043275Z&quot;,
+      &quot;updated_at&quot;: &quot;2026-04-26T18:41:05.043275Z&quot;
+    },
+    {
+      &quot;job_id&quot;: &quot;987bc4e5-61a5-436c-8768-827498f9826c&quot;,
+      &quot;job_key&quot;: &quot;e7a589d935302097baf28c008a9bb69d31d1afacd95a6a4c7801d653023a4be9&quot;,
+      &quot;retailer_id&quot;: &quot;kroger&quot;,
+      &quot;query&quot;: &quot;milk&quot;,
+      &quot;zip_code&quot;: &quot;90210&quot;,
+      &quot;store_id&quot;: &quot;kg-90210&quot;,
+      &quot;job_type&quot;: &quot;refresh&quot;,
+      &quot;status&quot;: &quot;queued&quot;,
+      &quot;retry_count&quot;: 0,
+      &quot;created_at&quot;: &quot;2026-04-26T18:41:05.043275Z&quot;,
+      &quot;updated_at&quot;: &quot;2026-04-26T18:41:05.043275Z&quot;
+    }
+  ]
+}</code></pre>
+            </section>
+
+            <section class="card" id="worker-run">
+              <div class="eyebrow">Step 4</div>
+              <h2>Worker processed jobs</h2>
+              <p class="caption">The local worker processes queued retailer jobs and writes mock index data.</p>
+              <pre><code>{
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;processed&quot;: 3,
+  &quot;succeeded&quot;: 3,
+  &quot;failed&quot;: 0,
+  &quot;pending&quot;: 0
+}</code></pre>
+            </section>
+
+            <section class="card" id="fresh-results">
+              <div class="eyebrow">Step 5</div>
+              <h2>Search after worker: fresh indexed mock results</h2>
+              <p class="caption">After the worker run, the next search returns fresh results from the updated local index.</p>
+              <pre><code>{
+  &quot;query&quot;: &quot;milk&quot;,
+  &quot;zip_code&quot;: &quot;90210&quot;,
+  &quot;freshness_status&quot;: &quot;fresh&quot;,
+  &quot;cache_hit&quot;: false,
+  &quot;refresh_enqueued&quot;: false,
+  &quot;dedupe_suppressed_jobs&quot;: 0,
+  &quot;results&quot;: [
+    {
+      &quot;retailer_id&quot;: &quot;walmart&quot;,
+      &quot;store_id&quot;: &quot;wm-90210&quot;,
+      &quot;name&quot;: &quot;Milk&quot;,
+      &quot;price&quot;: 3.29,
+      &quot;currency&quot;: &quot;USD&quot;
+    },
+    {
+      &quot;retailer_id&quot;: &quot;target&quot;,
+      &quot;store_id&quot;: &quot;tg-90210&quot;,
+      &quot;name&quot;: &quot;Milk&quot;,
+      &quot;price&quot;: 3.49,
+      &quot;currency&quot;: &quot;USD&quot;
+    },
+    {
+      &quot;retailer_id&quot;: &quot;kroger&quot;,
+      &quot;store_id&quot;: &quot;kg-90210&quot;,
+      &quot;name&quot;: &quot;Milk&quot;,
+      &quot;price&quot;: 3.59,
+      &quot;currency&quot;: &quot;USD&quot;
+    }
+  ],
+  &quot;missing_retailers&quot;: [],
+  &quot;message&quot;: &quot;Served from fresh index.&quot;
+}</code></pre>
+            </section>
+
+            <section class="card" id="failed-jobs">
+              <div class="eyebrow">Step 6</div>
+              <h2>Failed jobs / mock DLQ</h2>
+              <p class="caption">The mock dead-letter endpoint remains local and empty for this deterministic success-path demo.</p>
+              <pre><code>{
+  &quot;count&quot;: 0,
+  &quot;failed_jobs&quot;: []
+}</code></pre>
+            </section>
+
+            <section class="card" id="health-check">
+              <div class="eyebrow">Step 7</div>
+              <h2>Health check</h2>
+              <p class="caption">Basic counters from the local prototype after the demo sequence completes.</p>
+              <pre><code>{
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;queue_pending&quot;: 0,
+  &quot;cache_size&quot;: 1,
+  &quot;index_fresh_seconds&quot;: 86400
+}</code></pre>
+            </section>
+
+            </div>
+            <p class="footer">
+              Generated locally from the Track A prototype with deterministic reset data and a fixed random seed.
+            </p>
+          </main>
+        </body>
+        </html>
