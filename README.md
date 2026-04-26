@@ -18,7 +18,7 @@ Prox's public product positioning centers on comparing grocery prices across nea
 - [docs/prompt_diagnosis.md](/c:/Users/zdxzh/Desktop/Web%20crawler/docs/prompt_diagnosis.md)
 - [docs/runbook.md](/c:/Users/zdxzh/Desktop/Web%20crawler/docs/runbook.md)
 - [docs/scale_reliability_cost.md](/c:/Users/zdxzh/Desktop/Web%20crawler/docs/scale_reliability_cost.md)
-- [prompts/architecture_master_prompt.md](/c:/Users/zdxzh/Desktop/Web%20crawler/prompts/architecture_master_prompt.md)
+
 
 ## Recommended Submission Positioning
 
