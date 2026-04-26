@@ -1,0 +1,100 @@
+{
+  "90210:milk": {
+    "query": "milk",
+    "zip_code": "90210",
+    "updated_at": "2026-04-26T16:39:19.328651+00:00",
+    "results": [
+      {
+        "retailer_id": "walmart",
+        "store_id": "wm-90210",
+        "name": "Milk",
+        "price": 3.29,
+        "currency": "USD"
+      },
+      {
+        "retailer_id": "target",
+        "store_id": "tg-90210",
+        "name": "Milk",
+        "price": 3.49,
+        "currency": "USD"
+      },
+      {
+        "retailer_id": "kroger",
+        "store_id": "kg-90210",
+        "name": "Milk",
+        "price": 3.59,
+        "currency": "USD"
+      }
+    ]
+  },
+  "60614:eggs": {
+    "query": "eggs",
+    "zip_code": "60614",
+    "updated_at": "2026-04-26T16:45:12.727145+00:00",
+    "results": [
+      {
+        "retailer_id": "target",
+        "store_id": "tg-60614",
+        "name": "Eggs",
+        "price": 4.79,
+        "currency": "USD"
+      },
+      {
+        "retailer_id": "walmart",
+        "store_id": "wm-60614",
+        "name": "Eggs",
+        "price": 4.49,
+        "currency": "USD"
+      },
+      {
+        "retailer_id": "kroger",
+        "store_id": "kg-60614",
+        "name": "Eggs",
+        "price": 4.89,
+        "currency": "USD"
+      }
+    ]
+  },
+  "10001:bread": {
+    "query": "bread",
+    "zip_code": "10001",
+    "updated_at": "2026-04-26T00:00:00+00:00",
+    "results": [
+      {
+        "retailer_id": "kroger",
+        "store_id": "kg-10001",
+        "name": "Bread",
+        "price": 3.29,
+        "currency": "USD"
+      }
+    ]
+  },
+  "77002:bread": {
+    "query": "bread",
+    "zip_code": "77002",
+    "updated_at": "2026-04-26T16:46:01.041820+00:00",
+    "results": [
+      {
+        "retailer_id": "walmart",
+        "store_id": "wm-77002",
+        "name": "Bread",
+        "price": 2.99,
+        "currency": "USD"
+      },
+      {
+        "retailer_id": "target",
+        "store_id": "tg-77002",
+        "name": "Bread",
+        "price": 3.09,
+        "currency": "USD"
+      },
+      {
+        "retailer_id": "kroger",
+        "store_id": "kg-77002",
+        "name": "Bread",
+        "price": 3.29,
+        "currency": "USD"
+      }
+    ]
+  }
+}
